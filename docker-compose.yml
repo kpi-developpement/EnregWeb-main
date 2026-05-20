@@ -1,26 +1,13 @@
 services:
   audio-date-viewer:
     build: .
-    image: enregweb-audio-date-viewer:latest
     container_name: audio-date-viewer
     restart: always
     ports:
-      - "443:80"
-    environment:
-      DB_HOST: 10.10.10.55
-      AUDIO_BASE_DIR: /var/www/html/audio_mails
+      - "8085:80"
     volumes:
       - /mnt/nas_enrg/audio_mails:/var/www/html/audio_mails:ro
-    networks:
-      macvlan10:
-        ipv4_address: 10.10.10.52
-
-networks:
-  macvlan10:
-    driver: macvlan
-    driver_opts:
-      parent: ens18
-    ipam:
-      config:
-        - subnet: 10.10.10.0/24
-          gateway: 10.10.10.1
+      - /var/cache/kyntus-audio:/var/cache/kyntus-audio
+    command: >
+      sh -c "test -d /var/www/html/audio_mails || { echo 'ERREUR: audio_mails non monte'; exit 1; };
+      apache2-foreground"
