@@ -1,0 +1,14 @@
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json
+</IfModule>
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType audio/mpeg "access plus 1 hour"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+<IfModule mod_headers.c>
+    <FilesMatch "\.(mp3|wav|m4a|ogg|flac)$">
+        Header set Accept-Ranges "bytes"
+    </FilesMatch>
+</IfModule>
